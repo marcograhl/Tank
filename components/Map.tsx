@@ -1,4 +1,6 @@
 "use client"
+
+// @ts-ignore
 import MarkerClusterGroup from '../node_modules/@changey/react-leaflet-markercluster/src/react-leaflet-markercluster'
 import { Station, LatLng } from '@/types/tankstellen-types';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
@@ -32,7 +34,7 @@ function Map({ zoom, center, locations }: Props) {
       />
       <MarkerClusterGroup>
         {locations.map(({ lat, lng, name }) => (
-          <Marker position={[lat, lng]}>
+          <Marker key={name} position={[lat, lng]}>
             <Popup>{name}</Popup>
           </Marker>
         ))}
