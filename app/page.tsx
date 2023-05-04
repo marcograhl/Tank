@@ -1,4 +1,4 @@
-import LocationFinder from "@/components/LocationFinder/LocationFinder";
+import LocationFinder from "@/components/LocationFinder";
 
 export const metadata = {
   title: 'Willkommen!',

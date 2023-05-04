@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@changey/react-leaflet-markercluster": "^4.0.0-rc1",
     "@supabase/auth-helpers-nextjs": "^0.6.1",
     "@supabase/supabase-js": "^2.21.0",
     "@types/node": "18.16.3",
