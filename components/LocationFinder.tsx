@@ -1,4 +1,3 @@
-import { locations } from "@/lib/tankstellen";
 import dynamic from "next/dynamic";
 const Map = dynamic(() => import('@/components/Map'), {
   ssr: false,
