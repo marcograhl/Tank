@@ -1,5 +1,5 @@
 "use client"
-import { LatLng, Location } from '@/types/tankstellen-types';
+import { Station, LatLng } from '@/types/tankstellen-types';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 
 
@@ -8,7 +8,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 type Props = {
   zoom: number;
   center: LatLng;
-  locations: LatLng[];
+  locations: Station[];
 }
 
 
@@ -30,7 +30,9 @@ function Map({zoom, center, locations}: Props) {
       	attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       	url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     	/>
-      <Marker position={position}></Marker>
+      <Marker position={position}>
+       <Popup>{locations[0].name}</Popup>
+      </Marker>
   	</MapContainer>
   )
 }
