@@ -32,21 +32,6 @@ async function LocationFinder() {
 }
 
 
-export function getUserLocation(): Promise<GeolocationPosition> {
-  // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
-  const options: PositionOptions = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 0,
-  };
-
-  /* Die ältere geolocation-API basiert auf Callback-Funktionen statt
-      Promises. Hier wird sie in ein Promise verpackt, um sie in asynchronen
-      Funktionen nutzen zu können. */
-  return new Promise((resolve, reject) => {
-    window.navigator.geolocation.getCurrentPosition(resolve, reject, options);
-  });
-}
 
 
 export default LocationFinder;
