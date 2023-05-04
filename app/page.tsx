@@ -8,6 +8,7 @@ export default function Home() {
   return (
     <main>
       <h1>Tankstellen Sucher</h1>
+ {/* @ts-expect-error Server Component */}
       <LocationFinder />
     </main>
   );
