@@ -5,12 +5,6 @@ import MarkerClusterGroup from '../node_modules/@changey/react-leaflet-markerclu
 import { Station, LatLng } from '@/types/tankstellen-types';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 
-
-
-
-
-
-
 type Props = {
   zoom: number;
   center: LatLng;
