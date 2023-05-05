@@ -6,3 +6,8 @@ am Anfang einmal diese Zeile (ggf. mit angepasstem Pfad) steht:
 */
 @forward 'functions';
 @forward 'queries';
+
+:is(dt,dd){
+  display: inline-block;
+
+}

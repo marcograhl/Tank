@@ -9,12 +9,11 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 type Props = {
   zoom: number;
   center: LatLng;
-  locations: Station[];
+  stations: Station[];
 }
 
 
-function Map({ zoom, center, locations }: Props) {
-  console.log(locations)
+function Map({ zoom, center, stations }: Props) {
   return (
     <MapContainer
       // @ts-ignore
@@ -28,8 +27,8 @@ function Map({ zoom, center, locations }: Props) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <MarkerClusterGroup>
-        {locations.map(({ lat, lng, name }) => (
-          <Marker key={`${lat+lng+name}`} position={[lat, lng]}>
+        {stations.map(({ lat, lng, name,id }) => (
+          <Marker key={id} position={[lat, lng]}>
             <Popup>{name}</Popup>
           </Marker>
         ))}
@@ -47,7 +46,6 @@ type MapControllerProps = {
 function MapController({ center, zoom }: MapControllerProps) {
   /* map enthält die Leaflet-Instanz. */
   const map = useMap();
-
   /* Hier werden Methoden der Leaflet-Bibliothek verwendet, ganz unabhängig
         von React!
         https://leafletjs.com/reference-1.7.1.html#map-methods-for-modifying-map-state
