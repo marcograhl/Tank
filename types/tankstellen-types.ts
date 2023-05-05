@@ -3,6 +3,8 @@ export type LatLng = {
   lng: number;
 };
 
+export type Gastype= 'e10' | 'e5' | 'diesel'
+
 
 export type Station = {
   id: string;

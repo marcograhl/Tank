@@ -1,10 +1,12 @@
 'use client'
-import { Station } from "@/types/tankstellen-types";
+import { Gastype, Station } from "@/types/tankstellen-types";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { getUserLocation, getDistance } from "@/lib/helpers";
 import { LatLng } from "@/types/tankstellen-types";
 import LocationList from "./LocationList";
+import GasTypeSelector from "./GasTypeSelect"; 
+
 const Map = dynamic(() => import('@/components/Map'), {
   ssr: false,
 });
@@ -19,7 +21,7 @@ type Props = {
 
 const defaultZoom = 11;
 const defaultCenter = { lat: 52.520008, lng: 13.404954 };
-const defaultGasType = '';
+const defaultGasType:Gastype= 'e5';
 const defaultListMaxNumber = 15
 
 
@@ -116,6 +118,7 @@ function LocationFinder({ locations }: Props) {
       {geolocationError && <strong>{geolocationError}</strong>}
 
       <button onClick={reset}>Alle Standorte anzeigen</button>
+      <GasTypeSelector setGasType={setGasType} gasType={gasType}/>
       {showMap ? (
         <Map zoom={zoom} center={mapCenter} stations={locations.stations} />
       ) : (
