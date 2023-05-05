@@ -19,7 +19,7 @@ type Props = {
 
 const defaultZoom = 11;
 const defaultCenter = { lat: 52.520008, lng: 13.404954 };
-const defaultGasType = 'e5';
+const defaultGasType = '';
 const defaultListMaxNumber = 15
 
 
@@ -124,7 +124,7 @@ function LocationFinder({ locations }: Props) {
         </div>
       )
       }
-      <LocationList stations={priceSortArr} />
+      <LocationList stations={priceSortArr} gasType={gasType} />
     </div>
   )
 }
