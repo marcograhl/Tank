@@ -19,6 +19,8 @@ type Props = {
 
 const defaultZoom = 11;
 const defaultCenter = { lat: 52.520008, lng: 13.404954 };
+const defaultGasType = 'e5';
+const defaultListMaxNumber = 15
 
 
 
@@ -30,6 +32,7 @@ function LocationFinder({ locations }: Props) {
   const [userLocation, setUserLocation] = useState<LatLng | null>(null);
   const [geolocationError, setGeolocationError] = useState('');
   const [navigatorAvailable, setNavigatorAvailable] = useState(false);
+  const [gasType, setGasType] = useState(defaultGasType)
 
 // test if we are on the Client do it inside of the component
   useEffect(() => {
@@ -95,9 +98,14 @@ function LocationFinder({ locations }: Props) {
   //       return location;
   //     });
   //
-  const listTen = locations.stations.slice(0,10)
 
+  function comparePrice(a:any,b:any){
+    return a[gasType] - b[gasType]
+  }
 
+  const priceSortArr :Station[] = locations.stations.sort(comparePrice).slice(0,defaultListMaxNumber)
+
+  
 
 
   return (
@@ -116,7 +124,7 @@ function LocationFinder({ locations }: Props) {
         </div>
       )
       }
-      <LocationList stations={listTen} />
+      <LocationList stations={priceSortArr} />
     </div>
   )
 }
