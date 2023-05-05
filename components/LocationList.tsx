@@ -5,7 +5,6 @@ type Props = {
   gasType: string;
 };
 export default function LocationList({ stations, gasType }: Props) {
-  console.log({stations})
 
   return (
     <ul className="location-finder__list">

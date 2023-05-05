@@ -9,7 +9,7 @@ export const metadata = {
 export const revalidate = 900;
 
 // Berlin
-const defaultRadius = 15;
+const defaultRadius = 18;
 const defaultCenter = { lat: 52.520008, lng: 13.404954 };
 
 
