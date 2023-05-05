@@ -45,7 +45,6 @@ function LocationFinder({ locations }: Props) {
     setGeolocationError('');
     try {
       const location = await getUserLocation();
-      console.log(location);
 
       const userCenter: LatLng = {
         lat: location.coords.latitude,
@@ -105,7 +104,9 @@ function LocationFinder({ locations }: Props) {
     return a[gasType] - b[gasType]
   }
 
-  const priceSortArr :Station[] = locations.stations.sort(comparePrice).slice(0,defaultListMaxNumber)
+
+  const isOpenAndHasPrice = locations.stations.filter((station) => station[gasType]).filter((station) => station.isOpen)
+  const priceSortArr :Station[] = isOpenAndHasPrice.sort(comparePrice).slice(0,defaultListMaxNumber)
 
   
 

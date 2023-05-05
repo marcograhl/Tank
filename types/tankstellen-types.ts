@@ -15,9 +15,9 @@ export type Station = {
   lat: number;
   lng: number;
   dist: number;
-  diesel: number;
-  e5: number;
-  e10: number;
+  diesel?: number;
+  e5?: number;
+  e10?: number;
   isOpen: boolean;
   houseNumber: string;
   postCode: number;
