@@ -19,7 +19,7 @@ type Props = {
     }
 }
 
-const defaultZoom = 11;
+const defaultZoom = 10;
 const defaultCenter = { lat: 52.520008, lng: 13.404954 };
 const defaultGasType:Gastype= 'e5';
 const defaultListMaxNumber = 15
@@ -51,6 +51,7 @@ function LocationFinder({ locations }: Props) {
         lng: location.coords.longitude,
       };
       setMapCenter(userCenter);
+      setZoom(12);
     } catch (error) {
       console.log(error);
       // https://developer.mozilla.org/en-US/docs/Web/API/PositionError
@@ -78,7 +79,6 @@ function LocationFinder({ locations }: Props) {
   useEffect(() => {
     if (userLocation) {
       setMapCenter(userLocation);
-      setZoom(4);
     } else {
       reset();
     }
@@ -92,23 +92,25 @@ function LocationFinder({ locations }: Props) {
     setGeolocationError('');
   }
 
-  // const visibleLocations = userLocation
-  //   ? getLocationsInRadius(userLocation)
-  //   : locations.stations.map((location) => {
-  //       location.distance = undefined;
-  //       return location;
-  //     });
-  //
+
 
   function comparePrice(a:any,b:any){
     return a[gasType] - b[gasType]
   }
 
-
   const isOpenAndHasPrice = locations.stations.filter((station) => station[gasType]).filter((station) => station.isOpen)
-  const priceSortArr :Station[] = isOpenAndHasPrice.sort(comparePrice).slice(0,defaultListMaxNumber)
+  // const priceSortArr2 :Station[] = isOpenAndHasPrice.sort(comparePrice)
+  // const lowestPrice :Station = priceSortArr.slice(0,1);
 
+  // if we have a userLocation, give back the location of Gasstations that are 5km away, if not return all locations
+  const visibleLocations = userLocation
+    ? getLocationsInRadius(userLocation,isOpenAndHasPrice)
+    : isOpenAndHasPrice.map((location) => {
+        location.distance = undefined;
+        return location;
+      }).slice(0,defaultListMaxNumber);
   
+  const priceSortStations:Station[] = visibleLocations.sort(comparePrice); 
 
 
   return (
@@ -121,44 +123,44 @@ function LocationFinder({ locations }: Props) {
       <button onClick={reset}>Alle Standorte anzeigen</button>
       <GasTypeSelector setGasType={setGasType} gasType={gasType}/>
       {showMap ? (
-        <Map zoom={zoom} center={mapCenter} stations={locations.stations} />
+        <Map zoom={zoom} center={mapCenter} stations={isOpenAndHasPrice} />
       ) : (
         <div>
           <button onClick={() => setShowMap(true)}>Karte anzeigen</button>
         </div>
       )
       }
-      <LocationList stations={priceSortArr} gasType={gasType} />
+      <LocationList stations={priceSortStations} gasType={gasType} />
     </div>
   )
 }
 
 
-// function getLocationsInRadius(center: LatLng, radius = 10) {
-//   /* Hier allLocations so filtern, dass nur Standorte innerhalb des Radius
-//   (Entfernung von center) in einem neuen Array locationsInRadius bleiben.
-//   Dabei soll jeder Eintrag in dem neuen Array zugleich die Distanz zum
-//   center als Eigenschaft distance erhalten.
-//   */
-//   const locationsInRadius = locations.stations.filter((location) => {
-//     const distance = getDistance(
-//       location.latLng.lat,
-//       location.latLng.lng,
-//       center.lat,
-//       center.lng
-//     );
-//
-//     location.distance = distance;
-//
-//     return distance <= radius;
-//   });
-//   /* Den Array locationsInRadius nach Entfernung sortieren und anschließend
-//   zurückgeben. */
-//   locationsInRadius.sort((a, b) => a.distance! - b.distance!);
-//
-//   return locationsInRadius;
-// }
-//
+function getLocationsInRadius(center: LatLng, locations:Station[], radius = 5) {
+  /* Hier allLocations so filtern, dass nur Standorte innerhalb des Radius
+  (Entfernung von center) in einem neuen Array locationsInRadius bleiben.
+  Dabei soll jeder Eintrag in dem neuen Array zugleich die Distanz zum
+  center als Eigenschaft distance erhalten.
+  */
+  const locationsInRadius = locations.filter((location) => {
+    const distance = getDistance(
+      location.lat,
+      location.lng,
+      center.lat,
+      center.lng
+    );
+
+    location.distance = distance;
+
+    return distance <= radius;
+  });
+  /* Den Array locationsInRadius nach Entfernung sortieren und anschließend
+  zurückgeben. */
+  locationsInRadius.sort((a, b) => a.distance! - b.distance!);
+
+  return locationsInRadius;
+}
+
 
 
 export default LocationFinder;
