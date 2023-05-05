@@ -1,9 +1,4 @@
-import dynamic from 'next/dynamic';
-
-const LocationFinder = dynamic(() => import('@/components/LocationFinder'), {
-  ssr: false,
-});
-
+import LocationFinder from "@/components/LocationFinder";
 
 export const metadata = {
   title: 'Willkommen!',

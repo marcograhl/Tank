@@ -1,9 +1,10 @@
 'use client'
 import { Station } from "@/types/tankstellen-types";
 import dynamic from "next/dynamic";
-import { useState } from "react";
-import { getUserLocation } from "@/lib/helpers";
+import { useEffect, useState } from "react";
+import { getUserLocation, getDistance } from "@/lib/helpers";
 import { LatLng } from "@/types/tankstellen-types";
+import LocationList from "./LocationList";
 const Map = dynamic(() => import('@/components/Map'), {
   ssr: false,
 });
@@ -15,16 +16,12 @@ type Props = {
     stations: Station[]
     }
 }
-let navigatorAvailable = false;
+
 const defaultZoom = 11;
 const defaultCenter = { lat: 52.520008, lng: 13.404954 };
+const defaultGasType = '';
+const defaultListMaxNumber = 15
 
-// test if we are on the Client
-// Finder is now Client only Component because of dynamic import, maybe later change that
-// we Get hydration problem
-if(typeof window !== "undefined"){
-  navigatorAvailable = Boolean(window?.navigator?.geolocation);
-}
 
 
 
@@ -34,6 +31,13 @@ function LocationFinder({ locations }: Props) {
   const [mapCenter, setMapCenter] = useState(defaultCenter);
   const [userLocation, setUserLocation] = useState<LatLng | null>(null);
   const [geolocationError, setGeolocationError] = useState('');
+  const [navigatorAvailable, setNavigatorAvailable] = useState(false);
+  const [gasType, setGasType] = useState(defaultGasType)
+
+// test if we are on the Client do it inside of the component
+  useEffect(() => {
+    setNavigatorAvailable(Boolean(window?.navigator?.geolocation));
+  }, []);
 
   async function showNearLocations() {
     setGeolocationError('');
@@ -46,8 +50,6 @@ function LocationFinder({ locations }: Props) {
         lng: location.coords.longitude,
       };
       setMapCenter(userCenter);
-      setZoom(11);
-      setUserLocation(userCenter);
     } catch (error) {
       console.log(error);
       // https://developer.mozilla.org/en-US/docs/Web/API/PositionError
@@ -72,13 +74,38 @@ function LocationFinder({ locations }: Props) {
       }
     }
   }
+  useEffect(() => {
+    if (userLocation) {
+      setMapCenter(userLocation);
+      setZoom(4);
+    } else {
+      reset();
+    }
+  }, [userLocation]);
+
+
   function reset() {
     setZoom(defaultZoom);
     setMapCenter(defaultCenter);
     setUserLocation(null);
+    setGeolocationError('');
   }
 
+  // const visibleLocations = userLocation
+  //   ? getLocationsInRadius(userLocation)
+  //   : locations.stations.map((location) => {
+  //       location.distance = undefined;
+  //       return location;
+  //     });
+  //
 
+  function comparePrice(a:any,b:any){
+    return a[gasType] - b[gasType]
+  }
+
+  const priceSortArr :Station[] = locations.stations.sort(comparePrice).slice(0,defaultListMaxNumber)
+
+  
 
 
   return (
@@ -90,19 +117,44 @@ function LocationFinder({ locations }: Props) {
 
       <button onClick={reset}>Alle Standorte anzeigen</button>
       {showMap ? (
-        <Map zoom={zoom} center={mapCenter} locations={locations.stations} />
+        <Map zoom={zoom} center={mapCenter} stations={locations.stations} />
       ) : (
         <div>
           <button onClick={() => setShowMap(true)}>Karte anzeigen</button>
         </div>
       )
       }
+      <LocationList stations={priceSortArr} gasType={gasType} />
     </div>
   )
 }
 
 
-
+// function getLocationsInRadius(center: LatLng, radius = 10) {
+//   /* Hier allLocations so filtern, dass nur Standorte innerhalb des Radius
+//   (Entfernung von center) in einem neuen Array locationsInRadius bleiben.
+//   Dabei soll jeder Eintrag in dem neuen Array zugleich die Distanz zum
+//   center als Eigenschaft distance erhalten.
+//   */
+//   const locationsInRadius = locations.stations.filter((location) => {
+//     const distance = getDistance(
+//       location.latLng.lat,
+//       location.latLng.lng,
+//       center.lat,
+//       center.lng
+//     );
+//
+//     location.distance = distance;
+//
+//     return distance <= radius;
+//   });
+//   /* Den Array locationsInRadius nach Entfernung sortieren und anschließend
+//   zurückgeben. */
+//   locationsInRadius.sort((a, b) => a.distance! - b.distance!);
+//
+//   return locationsInRadius;
+// }
+//
 
 
 export default LocationFinder;

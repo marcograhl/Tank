@@ -19,6 +19,7 @@ export type Station = {
   isOpen: boolean;
   houseNumber: string;
   postCode: number;
+  distance?: number;
 }
 
 
