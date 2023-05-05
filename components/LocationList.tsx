@@ -5,6 +5,7 @@ type Props = {
   gasType: string;
 };
 export default function LocationList({ stations, gasType }: Props) {
+  console.log({stations})
 
   return (
     <ul className="location-finder__list">
@@ -20,20 +21,20 @@ export default function LocationList({ stations, gasType }: Props) {
               <dt>Adresse:</dt>
               <dd>{street} {houseNumber} , {postCode}</dd>
             </div>
-            {(gasType === "e10" || gasType === '') && (
+            {(gasType === "e10") && (
               <div>
                 <dt>Super E10</dt>
                 <dd>{e10}</dd>
               </div>
             )}
-            {(gasType === "e5" || gasType==='') && (
+            {(gasType === "e5") && (
               <div>
                 <dt>Super E5</dt>
                 <dd>{e5}</dd>
               </div>
             )}
 
-            {(gasType === "diesel" || gasType === '') && (
+            {(gasType === "diesel") && (
               <div>
                 <dt>Diesel</dt>
                 <dd>{diesel}</dd>

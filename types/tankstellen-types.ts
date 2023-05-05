@@ -3,6 +3,8 @@ export type LatLng = {
   lng: number;
 };
 
+export type Gastype= 'e10' | 'e5' | 'diesel'
+
 
 export type Station = {
   id: string;
@@ -13,9 +15,9 @@ export type Station = {
   lat: number;
   lng: number;
   dist: number;
-  diesel: number;
-  e5: number;
-  e10: number;
+  diesel?: number;
+  e5?: number;
+  e10?: number;
   isOpen: boolean;
   houseNumber: string;
   postCode: number;
