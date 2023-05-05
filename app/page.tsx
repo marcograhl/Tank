@@ -1,4 +1,9 @@
-import LocationFinder from "@/components/LocationFinder";
+import dynamic from 'next/dynamic';
+
+const LocationFinder = dynamic(() => import('@/components/LocationFinder'), {
+  ssr: false,
+});
+
 
 export const metadata = {
   title: 'Willkommen!',
@@ -10,7 +15,6 @@ export const revalidate = 900;
 
 // Berlin
 const defaultRadius = 15;
-// const defaultZoom = 11;
 const defaultCenter = { lat: 52.520008, lng: 13.404954 };
 
 
