@@ -6,6 +6,7 @@ import { getUserLocation, getDistance } from "@/lib/helpers";
 import { LatLng } from "@/types/tankstellen-types";
 import LocationList from "./LocationList";
 import GasTypeSelector from "./GasTypeSelect";
+import LocationSearch from "./LocationSearch";
 
 const Map = dynamic(() => import('@/components/Map'), {
   ssr: false,
@@ -79,7 +80,7 @@ function LocationFinder({ locations }: Props) {
   useEffect(() => {
     if (userLocation) {
       setMapCenter(userLocation);
-      setZoom(12);
+      setZoom(13);
     } else {
       reset();
     }
@@ -121,6 +122,13 @@ function LocationFinder({ locations }: Props) {
       {geolocationError && <strong>{geolocationError}</strong>}
 
       <button onClick={reset}>Alle Standorte anzeigen</button>
+      {visibleLocations.length === 0 && (
+        <strong className="location-finder__error">
+          Leider kein Standort in Ihrer Nähe.
+        </strong>
+      )}
+      <LocationSearch setUserLocation={setUserLocation} />
+
       <GasTypeSelector setGasType={setGasType} gasType={gasType} />
       {showMap ? (
         <Map
