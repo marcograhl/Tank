@@ -99,8 +99,8 @@ function LocationFinder({ locations }: Props) {
     return a[gasType] - b[gasType]
   }
 
-  const isOpenAndHasPrice = locations.stations.filter((station) => station[gasType]).filter((station) => station.isOpen)
-  // const lowestPrice :Station = priceSortArr.slice(0,1);
+  const isOpenAndHasPrice = locations.stations.filter((station) => station[gasType]).filter((station) => station.isOpen).sort(comparePrice);
+  const lowestPrice = isOpenAndHasPrice.slice(0, 1).map((item) => item[gasType]).toString()
 
 
   // if we have a userLocation, give back the location of Gasstations that are 5km away, if not return all locations
@@ -111,7 +111,7 @@ function LocationFinder({ locations }: Props) {
       return location;
     })
 
-  const priceSortStations: Station[] = visibleLocations.sort(comparePrice).slice(0, defaultListMaxNumber);
+  const priceSortStations: Station[] = visibleLocations.slice(0, defaultListMaxNumber);
 
   return (
     <div>
@@ -133,13 +133,21 @@ function LocationFinder({ locations }: Props) {
         </div>
       )
       }
+     <p>Lowest Price</p> 
+      <dl>
+        <div>
+          <dt>{gasType}</dt>
+          <dd>{lowestPrice}</dd>
+        </div>
+      </dl>
+
       <LocationList
         stations={priceSortStations}
         gasType={gasType}
         setMapCenter={setMapCenter}
         setZoom={setZoom}
         userLocation={userLocation}
-        />
+      />
     </div>
   )
 }
@@ -164,9 +172,9 @@ function getLocationsInRadius(center: LatLng, locations: Station[], radius = 6) 
     return distance <= radius;
   });
   /* Den Array locationsInRadius nach Entfernung sortieren und anschließend
-  zurückgeben. */
-  locationsInRadius.sort((a, b) => a.distance! - b.distance!);
-  console.log(locationsInRadius)
+  zurückgeben. We don't need it yet maybe later */
+  // locationsInRadius.sort((a, b) => a.distance! - b.distance!);
+  // console.log(locationsInRadius)
 
   return locationsInRadius;
 }
