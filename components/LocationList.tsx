@@ -9,12 +9,18 @@ export default function LocationList({ stations, gasType }: Props) {
   return (
     <ul className="location-finder__list">
       {stations.map(({ name, street, postCode, e5, e10, diesel, distance, id, houseNumber }) => (
-        <li key={id}>
+        <li key={id} data-id={id} >
           <dl>
             <div>
               <dt>Name:</dt>
               <dd>{name}</dd>
             </div>
+            {distance !== undefined &&
+              <div>
+                <dt>Distance:</dt>
+                <dd>{distance.toFixed(2)} km</dd>
+              </div>
+            }
 
             <div>
               <dt>Adresse:</dt>
