@@ -172,9 +172,9 @@ function getLocationsInRadius(center: LatLng, locations: Station[], radius = 6) 
     return distance <= radius;
   });
   /* Den Array locationsInRadius nach Entfernung sortieren und anschließend
-  zurückgeben. */
-  locationsInRadius.sort((a, b) => a.distance! - b.distance!);
-  console.log(locationsInRadius)
+  zurückgeben. We don't need it yet maybe later */
+  // locationsInRadius.sort((a, b) => a.distance! - b.distance!);
+  // console.log(locationsInRadius)
 
   return locationsInRadius;
 }
