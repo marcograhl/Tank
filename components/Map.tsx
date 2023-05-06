@@ -14,6 +14,7 @@ type Props = {
 
 
 function Map({ zoom, center, stations }: Props) {
+
   return (
     <MapContainer
       // @ts-ignore
@@ -28,7 +29,7 @@ function Map({ zoom, center, stations }: Props) {
       />
       <MarkerClusterGroup>
         {stations.map(({ lat, lng, name,id }) => (
-          <Marker key={id} position={[lat, lng]}>
+          <Marker key={id} position={[lat, lng]} >
             <Popup>{name}</Popup>
           </Marker>
         ))}
