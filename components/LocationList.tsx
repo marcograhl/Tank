@@ -1,5 +1,6 @@
-import { Station } from "@/types/tankstellen-types";
+import { Station, LatLng } from "@/types/tankstellen-types";
 import type { Dispatch, SetStateAction } from 'react';
+import { FaExternalLinkAlt } from 'react-icons/fa';
 
 
 type Props = {
@@ -10,10 +11,10 @@ type Props = {
     lng: number;
 }>>
 setZoom: Dispatch<SetStateAction<number>>;
+userLocation: LatLng | null;
 };
-export default function LocationList({ stations, gasType,setMapCenter,setZoom }: Props) {
-// ()=>setMapCenter({lat:lat,lng:lng})
-  function lockOnStation(lat:number,lng:number, zoom = 16){
+export default function LocationList({ stations, gasType,setMapCenter,setZoom,userLocation }: Props) {
+  function lockOnStation(lat:number,lng:number, zoom = 15){
      setMapCenter({lat:lat,lng:lng})
      setZoom(zoom)
     }
@@ -58,6 +59,12 @@ export default function LocationList({ stations, gasType,setMapCenter,setZoom }:
             )}
           </dl>
           <button onClick={()=>lockOnStation(lat,lng)}>Center Position</button>
+          {userLocation &&(
+              <a href={`https://www.google.com/maps/dir/?api=1&origin=${userLocation?.lat},${userLocation?.lng}&destination=${lat},${lng}`} target="_blank" rel="noreferrer">
+              Get Directions
+              <FaExternalLinkAlt />
+              </a>
+          ) }
         </li>
       ))}
     </ul>

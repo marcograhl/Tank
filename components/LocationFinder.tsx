@@ -123,14 +123,23 @@ function LocationFinder({ locations }: Props) {
       <button onClick={reset}>Alle Standorte anzeigen</button>
       <GasTypeSelector setGasType={setGasType} gasType={gasType} />
       {showMap ? (
-        <Map zoom={zoom} center={mapCenter} stations={visibleLocations} />
+        <Map
+          zoom={zoom}
+          center={mapCenter}
+          stations={visibleLocations} />
       ) : (
         <div>
           <button onClick={() => setShowMap(true)}>Karte anzeigen</button>
         </div>
       )
       }
-      <LocationList stations={priceSortStations} gasType={gasType} setMapCenter={setMapCenter} setZoom={setZoom} />
+      <LocationList
+        stations={priceSortStations}
+        gasType={gasType}
+        setMapCenter={setMapCenter}
+        setZoom={setZoom}
+        userLocation={userLocation}
+        />
     </div>
   )
 }
