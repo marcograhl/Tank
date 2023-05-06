@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { useCombobox, UseComboboxStateChange } from 'downshift';
 import { useDebouncedValue } from '@/lib/hooks/useDebouncedValue';
-import type { LatLng, Suggestion } from '@/types/location-types';
+import { LatLng,Suggestion } from '@/types/tankstellen-types';
 
 type Props = {
   setUserLocation: Dispatch<SetStateAction<LatLng | null>>;
