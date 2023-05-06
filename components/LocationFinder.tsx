@@ -16,12 +16,12 @@ const Map = dynamic(() => import('@/components/Map'), {
 type Props = {
   locations: {
     stations: Station[]
-    }
+  }
 }
 
 const defaultZoom = 10;
 const defaultCenter = { lat: 52.520008, lng: 13.404954 };
-const defaultGasType:Gastype= 'e5';
+const defaultGasType: Gastype = 'e5';
 const defaultListMaxNumber = 15
 
 
@@ -36,7 +36,7 @@ function LocationFinder({ locations }: Props) {
   const [navigatorAvailable, setNavigatorAvailable] = useState(false);
   const [gasType, setGasType] = useState(defaultGasType)
 
-// test if we are on the Client do it inside of the component
+  // test if we are on the Client do it inside of the component
   useEffect(() => {
     setNavigatorAvailable(Boolean(window?.navigator?.geolocation));
   }, []);
@@ -95,23 +95,23 @@ function LocationFinder({ locations }: Props) {
 
 
 
-   function comparePrice(a:any,b:any){
-     return a[gasType] - b[gasType]
-   }
+  function comparePrice(a: any, b: any) {
+    return a[gasType] - b[gasType]
+  }
 
-   const isOpenAndHasPrice = locations.stations.filter((station) => station[gasType]).filter((station) => station.isOpen)
-   // const lowestPrice :Station = priceSortArr.slice(0,1);
+  const isOpenAndHasPrice = locations.stations.filter((station) => station[gasType]).filter((station) => station.isOpen)
+  // const lowestPrice :Station = priceSortArr.slice(0,1);
 
 
-   // if we have a userLocation, give back the location of Gasstations that are 5km away, if not return all locations
-   const visibleLocations = userLocation
-     ? getLocationsInRadius(userLocation,isOpenAndHasPrice)
-     : isOpenAndHasPrice.map((location) => {
-         location.distance = undefined;
-         return location;
-       })
-   
-   const priceSortStations:Station[] = visibleLocations.sort(comparePrice).slice(0,defaultListMaxNumber);; 
+  // if we have a userLocation, give back the location of Gasstations that are 5km away, if not return all locations
+  const visibleLocations = userLocation
+    ? getLocationsInRadius(userLocation, isOpenAndHasPrice)
+    : isOpenAndHasPrice.map((location) => {
+      location.distance = undefined;
+      return location;
+    })
+
+  const priceSortStations: Station[] = visibleLocations.sort(comparePrice).slice(0, defaultListMaxNumber);
 
   return (
     <div>
@@ -121,7 +121,7 @@ function LocationFinder({ locations }: Props) {
       {geolocationError && <strong>{geolocationError}</strong>}
 
       <button onClick={reset}>Alle Standorte anzeigen</button>
-      <GasTypeSelector setGasType={setGasType} gasType={gasType}/>
+      <GasTypeSelector setGasType={setGasType} gasType={gasType} />
       {showMap ? (
         <Map zoom={zoom} center={mapCenter} stations={visibleLocations} />
       ) : (
@@ -130,13 +130,13 @@ function LocationFinder({ locations }: Props) {
         </div>
       )
       }
-      <LocationList stations={priceSortStations} gasType={gasType} />
+      <LocationList stations={priceSortStations} gasType={gasType} setMapCenter={setMapCenter} setZoom={setZoom} />
     </div>
   )
 }
 
 
-function getLocationsInRadius(center: LatLng, locations:Station[], radius = 6) {
+function getLocationsInRadius(center: LatLng, locations: Station[], radius = 6) {
   /* Hier allLocations so filtern, dass nur Standorte innerhalb des Radius
   (Entfernung von center) in einem neuen Array locationsInRadius bleiben.
   Dabei soll jeder Eintrag in dem neuen Array zugleich die Distanz zum

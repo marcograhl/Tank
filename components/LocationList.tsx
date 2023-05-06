@@ -1,14 +1,25 @@
 import { Station } from "@/types/tankstellen-types";
+import type { Dispatch, SetStateAction } from 'react';
+
 
 type Props = {
-  stations: Station[]
+  stations: Station[];
   gasType: string;
+  setMapCenter: Dispatch<SetStateAction<{
+    lat: number;
+    lng: number;
+}>>
+setZoom: Dispatch<SetStateAction<number>>;
 };
-export default function LocationList({ stations, gasType }: Props) {
-
+export default function LocationList({ stations, gasType,setMapCenter,setZoom }: Props) {
+// ()=>setMapCenter({lat:lat,lng:lng})
+  function lockOnStation(lat:number,lng:number, zoom = 16){
+     setMapCenter({lat:lat,lng:lng})
+     setZoom(zoom)
+    }
   return (
     <ul className="location-finder__list">
-      {stations.map(({ name, street, postCode, e5, e10, diesel, distance, id, houseNumber }) => (
+      {stations.map(({ name, street, postCode, e5, e10, diesel, distance, id, houseNumber,lat,lng }) => (
         <li key={id} data-id={id} >
           <dl>
             <div>
@@ -46,6 +57,7 @@ export default function LocationList({ stations, gasType }: Props) {
               </div>
             )}
           </dl>
+          <button onClick={()=>lockOnStation(lat,lng)}>Center Position</button>
         </li>
       ))}
     </ul>
