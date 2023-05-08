@@ -29,7 +29,7 @@ const defaultFavList = [] as Station[];
 const defaultSettings = {
   fuelType: defaultGasType,
   favoriteStations: defaultFavList
-} as UserSettings
+} 
 
 
 
@@ -50,22 +50,22 @@ function LocationFinder({ locations }: Props) {
   useEffect(() => {
     setNavigatorAvailable(Boolean(window?.navigator?.geolocation));
 
-    const oldSettings = getInitialUserSetting();
-    setGasType(oldSettings.fuelType)
-    setFavoriteStations(oldSettings.favoriteStations)
+    // const oldSettings = getInitialUserSetting();
+    // setGasType(oldSettings.fuelType)
+    // setFavoriteStations(oldSettings.favoriteStations)
   }, []);
 
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.localStorage) {
-      const newSettings = {
-        fuelType: gasType,
-        favoriteStations
-      }
-      setUserSetting(newSettings)
-      localStorage.setItem('userSettings', JSON.stringify(newSettings))
-    }
-  }, [gasType,favoriteStations])
-
+  // useEffect(() => {
+  //   if (typeof window !== "undefined" && window.localStorage) {
+  //     const newSettings = {
+  //       fuelType: gasType,
+  //       favoriteStations
+  //     }
+  //     setUserSetting(newSettings)
+  //     localStorage.setItem('userSettings', JSON.stringify(newSettings))
+  //   }
+  // }, [gasType,favoriteStations])
+  //
 
   async function showNearLocations() {
     setGeolocationError('');
@@ -141,7 +141,7 @@ function LocationFinder({ locations }: Props) {
 
   return (
     <div>
-      <FuelSelect gasType={gasType} setGasType={setGasType} />
+      {/*<FuelSelect gasType={gasType} setGasType={setGasType} />*/
       {navigatorAvailable && (
         <button onClick={showNearLocations}>This is my Location </button>
       )}
@@ -175,7 +175,7 @@ function LocationFinder({ locations }: Props) {
         </div>
       </dl>
       <ListSelect setShowFavList={setShowFavList} />
-      {/* !showFavList ?
+      {!showFavList ?
         <LocationList
            favoriteStations={favoriteStations}
           stations={priceSortStations}
@@ -195,7 +195,7 @@ function LocationFinder({ locations }: Props) {
           setFavoriteStations={setFavoriteStations}
         />
 
-     */ }
+      }
 
 
 
