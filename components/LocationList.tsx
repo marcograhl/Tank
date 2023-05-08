@@ -42,7 +42,7 @@ export default function LocationList({ stations, gasType, setMapCenter, setZoom,
   return (
     <ul className="location-finder__list">
 
-      {stations.length === 0 ? <span>You dont have any Favorties yet</span> : stations.map(({ name, street, postCode, e5, e10, diesel, distance, id, houseNumber, lat, lng }) => (
+      {(stations.length === 0) ? <span>You dont have any Favorties yet</span> : stations.map(({ name, street, postCode, e5, e10, diesel, distance, id, houseNumber, lat, lng }) => (
         <li key={id}>
           <dl>
             <div>
