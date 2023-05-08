@@ -141,7 +141,7 @@ function LocationFinder({ locations }: Props) {
 
   return (
     <div>
-      {/*<FuelSelect gasType={gasType} setGasType={setGasType} />*/
+      {/*<FuelSelect gasType={gasType} setGasType={setGasType} />*/}
       {navigatorAvailable && (
         <button onClick={showNearLocations}>This is my Location </button>
       )}
