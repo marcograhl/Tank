@@ -1,4 +1,5 @@
 import { Station, LatLng } from "@/types/tankstellen-types";
+import Link from "next/link";
 import type { Dispatch, SetStateAction } from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 
@@ -20,8 +21,9 @@ export default function LocationList({ stations, gasType,setMapCenter,setZoom,us
     }
   return (
     <ul className="location-finder__list">
-      {stations.map(({ name, street, postCode, e5, e10, diesel, distance, id, houseNumber,lat,lng }) => (
-        <li key={id} data-id={id} >
+
+      {stations.length === 0 ? <span>You don't have any Favorties yet</span> : stations.map(({ name, street, postCode, e5, e10, diesel, distance, id, houseNumber,lat,lng }) => (
+        <li key={id}>
           <dl>
             <div>
               <dt>Name:</dt>
@@ -60,10 +62,10 @@ export default function LocationList({ stations, gasType,setMapCenter,setZoom,us
           </dl>
           <button onClick={()=>lockOnStation(lat,lng)}>Center Position</button>
           {userLocation &&(
-              <a href={`https://www.google.com/maps/dir/?api=1&origin=${userLocation?.lat},${userLocation?.lng}&destination=${lat},${lng}`} target="_blank" rel="noreferrer">
+              <Link href={`https://www.google.com/maps/dir/?api=1&origin=${userLocation?.lat},${userLocation?.lng}&destination=${lat},${lng}`} target="_blank" rel="noreferrer">
               Get Directions
               <FaExternalLinkAlt />
-              </a>
+              </Link>
           ) }
         </li>
       ))}

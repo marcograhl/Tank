@@ -5,6 +5,9 @@ export type LatLng = {
 
 export type Gastype= 'e10' | 'e5' | 'diesel'
 
+export type Selection = {
+  title: string
+}
 
 export type Station = {
   id: string;
