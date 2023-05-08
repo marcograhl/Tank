@@ -1,21 +1,24 @@
+
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useSelect } from 'downshift'
 import { Selection } from '@/types/tankstellen-types';
-
+import { Gastype } from '@/types/tankstellen-types';
 
 type Props = {
-  setShowFavList: Dispatch<SetStateAction<boolean>>;
+  setGasType: Dispatch<SetStateAction<Gastype>>
+  gasType: Gastype
 }
 
-function ListSelect({ setShowFavList }: Props) {
+function FuelSelect({ setGasType, gasType }: Props) {
 
   function itemToString(item: Selection | null) {
     return item ? item.value : ''
   }
 
-  const selections: Selection[] = [
-    { value: 'Top 15' },
-    { value: 'Favorites' }
+  const FuelTypeSelections: Selection[] = [
+    { value: 'e5' },
+    { value: 'e10' },
+    { value: 'diesel' }
   ]
 
   function Select() {
@@ -28,28 +31,26 @@ function ListSelect({ setShowFavList }: Props) {
       highlightedIndex,
       getItemProps,
     } = useSelect({
-      items: selections,
+      items: FuelTypeSelections,
       itemToString,
     })
 
     useEffect(() => {
-      if (selectedItem !== null && selectedItem?.value === 'Favorites') {
-         setShowFavList(true)
+      if (selectedItem !== null) {
+        setGasType(selectedItem.value)
       }
-      else if(selectedItem !== null && selectedItem?.value=== 'Top 15'){
-        setShowFavList(false)
-      }
+
     }, [selectedItem])
 
     return (
       <div>
         <div className="w-72 flex flex-col gap-1">
-          <label {...getLabelProps()}>Select Default List</label>
+          <label {...getLabelProps()}>Select Fueltype</label>
           <div
             className="p-2 bg-white flex justify-between cursor-pointer"
             {...getToggleButtonProps()}
           >
-            <span>{selectedItem ? selectedItem.value : 'Top 15'}</span>
+            <span>{selectedItem ? selectedItem.value : gasType}</span>
             <span className="px-2">{isOpen ? <>&#8593;</> : <>&#8595;</>}</span>
           </div>
         </div>
@@ -59,7 +60,7 @@ function ListSelect({ setShowFavList }: Props) {
           {...getMenuProps()}
         >
           {isOpen &&
-            selections.map((item, index) => (
+            FuelTypeSelections.map((item, index) => (
               <li
                 className={`hi`}
                 key={`${item.value}${index}`}
@@ -77,4 +78,4 @@ function ListSelect({ setShowFavList }: Props) {
 }
 
 
-export default ListSelect
+export default FuelSelect
