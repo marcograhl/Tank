@@ -29,9 +29,13 @@ function Map({ zoom, center, stations }: Props) {
       />
       <MarkerClusterGroup>
         {stations.map(({ lat, lng, name,id }) => (
-          <Marker key={id} position={[lat, lng]} >
-            <Popup>{name}</Popup>
+        <div key={id} data-id={id}>
+        hi
+          <Marker position={[lat, lng]} >
+          <Popup>{name}</Popup>
           </Marker>
+        </div>
+        
         ))}
       </MarkerClusterGroup>
     <MapController zoom={zoom} center={center} />
@@ -57,6 +61,9 @@ function MapController({ center, zoom }: MapControllerProps) {
         des Programms führen würde.)
         */
   useEffect(() => {
+    if(!map){
+      return
+      }
     map.setView(center, zoom);
   }, [center, zoom, map]);
 

@@ -21,9 +21,9 @@ const getLocations = async () => {
   const response = await fetch(`${TANK_URL}list.php?lat=${defaultCenter.lat}&lng=${defaultCenter.lng}&rad=${defaultRadius}&sort=dist&type=all&apikey=${TANK_KEY}`)
   return response.json();
 }
-
 export default async function Home() {
   const locations = await getLocations();
+  
 
   return (
     <main>

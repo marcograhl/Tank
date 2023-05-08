@@ -1,12 +1,14 @@
 'use client'
-import { Gastype, Station } from "@/types/tankstellen-types";
+import { Gastype, Station,UserSettings } from "@/types/tankstellen-types";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { getUserLocation, getDistance } from "@/lib/helpers";
 import { LatLng } from "@/types/tankstellen-types";
 import LocationList from "./LocationList";
-import GasTypeSelector from "./GasTypeSelect";
 import LocationSearch from "./LocationSearch";
+import ListSelect from "./ListSelect";
+import FuelSelect from "./FuelTypeSelect";
+
 
 const Map = dynamic(() => import('@/components/Map'), {
   ssr: false,
@@ -19,11 +21,16 @@ type Props = {
     stations: Station[]
   }
 }
-
 const defaultZoom = 10;
 const defaultCenter = { lat: 52.520008, lng: 13.404954 };
-const defaultGasType: Gastype = 'e5';
+const defaultGasType = 'e5' as Gastype;
 const defaultListMaxNumber = 15
+const defaultFavList = [] as Station[];
+const defaultSettings = {
+  fuelType: defaultGasType,
+  favoriteStations: defaultFavList
+} as UserSettings
+
 
 
 
@@ -36,11 +43,29 @@ function LocationFinder({ locations }: Props) {
   const [geolocationError, setGeolocationError] = useState('');
   const [navigatorAvailable, setNavigatorAvailable] = useState(false);
   const [gasType, setGasType] = useState(defaultGasType)
+  const [favoriteStations, setFavoriteStations] = useState(defaultFavList);
+  const [userSettings, setUserSetting] = useState(defaultSettings)
+  const [showFavList, setShowFavList] = useState(false);
 
-  // test if we are on the Client do it inside of the component
   useEffect(() => {
     setNavigatorAvailable(Boolean(window?.navigator?.geolocation));
+
+    const oldSettings = getInitialUserSetting();
+    setGasType(oldSettings.fuelType)
+    setFavoriteStations(oldSettings.favoriteStations)
   }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.localStorage) {
+      const newSettings = {
+        fuelType: gasType,
+        favoriteStations
+      }
+      setUserSetting(newSettings)
+      localStorage.setItem('userSettings', JSON.stringify(newSettings))
+    }
+  }, [gasType,favoriteStations])
+
 
   async function showNearLocations() {
     setGeolocationError('');
@@ -96,8 +121,8 @@ function LocationFinder({ locations }: Props) {
 
 
 
-  function comparePrice(a: any, b: any) {
-    return a[gasType] - b[gasType]
+  function comparePrice(a: Station, b: Station) {
+    return a[gasType]! - b[gasType]!
   }
 
   const isOpenAndHasPrice = locations.stations.filter((station) => station[gasType]).filter((station) => station.isOpen).sort(comparePrice);
@@ -116,6 +141,7 @@ function LocationFinder({ locations }: Props) {
 
   return (
     <div>
+      <FuelSelect gasType={gasType} setGasType={setGasType} />
       {navigatorAvailable && (
         <button onClick={showNearLocations}>This is my Location </button>
       )}
@@ -129,7 +155,7 @@ function LocationFinder({ locations }: Props) {
       )}
       <LocationSearch setUserLocation={setUserLocation} />
 
-      <GasTypeSelector setGasType={setGasType} gasType={gasType} />
+      {/*<GasTypeSelector setGasType={setGasType} gasType={gasType} />*/}
       {showMap ? (
         <Map
           zoom={zoom}
@@ -141,21 +167,39 @@ function LocationFinder({ locations }: Props) {
         </div>
       )
       }
-     <p>Lowest Price</p> 
+      <p>Lowest Price</p>
       <dl>
         <div>
           <dt>{gasType}</dt>
           <dd>{lowestPrice}</dd>
         </div>
       </dl>
+      <ListSelect setShowFavList={setShowFavList} />
+      {!showFavList ?
+        <LocationList
+           favoriteStations={favoriteStations}
+          stations={priceSortStations}
+          gasType={gasType}
+          setMapCenter={setMapCenter}
+          setZoom={setZoom}
+          userLocation={userLocation}
+          setFavoriteStations={setFavoriteStations}
+        /> :
+        <LocationList
+          favoriteStations={favoriteStations}
+          stations={favoriteStations}
+          gasType={gasType}
+          setMapCenter={setMapCenter}
+          setZoom={setZoom}
+          userLocation={userLocation}
+          setFavoriteStations={setFavoriteStations}
+        />
 
-      <LocationList
-        stations={priceSortStations}
-        gasType={gasType}
-        setMapCenter={setMapCenter}
-        setZoom={setZoom}
-        userLocation={userLocation}
-      />
+      }
+
+
+
+
     </div>
   )
 }
@@ -187,6 +231,16 @@ function getLocationsInRadius(center: LatLng, locations: Station[], radius = 6) 
   return locationsInRadius;
 }
 
+function getInitialUserSetting() {
+  try {
+    const oldUserSetting = JSON.parse(localStorage.getItem('userSettings')!);
+    return oldUserSetting ? oldUserSetting : {};
+  } catch (error) {
+    console.log(error);
+    localStorage.removeItem('userSettings');
+    return {};
+  }
+}
 
 
 export default LocationFinder;

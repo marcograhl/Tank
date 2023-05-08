@@ -5,6 +5,14 @@ export type LatLng = {
 
 export type Gastype= 'e10' | 'e5' | 'diesel'
 
+export type Selection = {
+  value: string | Gastype
+}
+
+export type UserSettings ={
+  fuelType: Gastype;
+  favoriteStations: Station[];
+}
 
 export type Station = {
   id: string;
@@ -21,6 +29,7 @@ export type Station = {
   isOpen: boolean;
   houseNumber: string;
   postCode: number;
+  isFavorite?: boolean;
   distance?: number;
 }
 
