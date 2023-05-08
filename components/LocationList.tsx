@@ -18,6 +18,23 @@ type Props = {
 };
 export default function LocationList({ stations, gasType, setMapCenter, setZoom, userLocation, setFavoriteStations, favoriteStations }: Props) {
 
+  function toggleFavorite(id: string) {
+
+    const currentFavorite = stations.filter(station => station.id === id)
+    const notInFavorite = !favoriteStations.some(station => station.id === id)
+    const isFavorite = !notInFavorite
+
+
+    if (notInFavorite) {
+      const newFavoriteStations = [...currentFavorite, ...favoriteStations]
+      setFavoriteStations(newFavoriteStations)
+    } else if (isFavorite) {
+      const newFavoriteStations = favoriteStations.filter(station=> station.id !== id)
+      setFavoriteStations(newFavoriteStations)
+    }
+    console.log(favoriteStations)
+  }
+
   function lockOnStation(lat: number, lng: number, zoom = 15) {
     setMapCenter({ lat, lng })
     setZoom(zoom)
@@ -63,6 +80,7 @@ export default function LocationList({ stations, gasType, setMapCenter, setZoom,
               </div>
             )}
           </dl>
+          <button onClick={() => toggleFavorite(id)}>♥️ </button>
           <button onClick={() => lockOnStation(lat, lng)}>Center Position</button>
             <Link href={`https://www.google.com/maps/dir/?api=1&origin=${userLocation?.lat},${userLocation?.lng}&destination=${lat},${lng}`} target="_blank" rel="noreferrer">
               Get Directions

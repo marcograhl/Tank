@@ -175,7 +175,7 @@ function LocationFinder({ locations }: Props) {
         </div>
       </dl>
       <ListSelect setShowFavList={setShowFavList} />
-      {!showFavList ?
+      {/* !showFavList ?
         <LocationList
            favoriteStations={favoriteStations}
           stations={priceSortStations}
@@ -195,7 +195,7 @@ function LocationFinder({ locations }: Props) {
           setFavoriteStations={setFavoriteStations}
         />
 
-      }
+     */ }
 
 
 
