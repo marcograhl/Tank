@@ -51,7 +51,8 @@ function LocationFinder({ locations }: Props) {
   useEffect(() => {
     setNavigatorAvailable(Boolean(window?.navigator?.geolocation));
 
-    // const oldSettings = getInitialUserSetting();
+    const oldSettings = getInitialUserSetting();
+    console.log(oldSettings)
     // setGasType(oldSettings.fuelType)
     // setFavoriteStations(oldSettings.favoriteStations)
   }, []);
