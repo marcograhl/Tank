@@ -53,8 +53,8 @@ function LocationFinder({ locations }: Props) {
 
     const oldSettings = getInitialUserSetting();
     console.log(oldSettings)
-    // setGasType(oldSettings.fuelType)
-    // setFavoriteStations(oldSettings.favoriteStations)
+    setGasType(oldSettings.fuelType)
+    setFavoriteStations(oldSettings.favoriteStations)
   }, []);
 
   useEffect(() => {
