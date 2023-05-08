@@ -51,11 +51,9 @@ function LocationFinder({ locations }: Props) {
   useEffect(() => {
     setNavigatorAvailable(Boolean(window?.navigator?.geolocation));
 
-    if (typeof window !== "undefined" && window.localStorage) {
-    const oldSettings = getInitialUserSetting();
-    setGasType(oldSettings.fuelType)
+    // const oldSettings = getInitialUserSetting();
+    // setGasType(oldSettings.fuelType)
     // setFavoriteStations(oldSettings.favoriteStations)
-    }
   }, []);
 
   useEffect(() => {
