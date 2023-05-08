@@ -8,6 +8,7 @@ import LocationList from "./LocationList";
 import LocationSearch from "./LocationSearch";
 import ListSelect from "./ListSelect";
 import FuelSelect from "./FuelTypeSelect";
+// import GasTypeSelector from "./GasTypeSelect";
 
 
 const Map = dynamic(() => import('@/components/Map'), {
@@ -29,7 +30,7 @@ const defaultFavList = [] as Station[];
 const defaultSettings = {
   fuelType: defaultGasType,
   favoriteStations: defaultFavList
-} as UserSettings
+} 
 
 
 
@@ -51,6 +52,7 @@ function LocationFinder({ locations }: Props) {
     setNavigatorAvailable(Boolean(window?.navigator?.geolocation));
 
     const oldSettings = getInitialUserSetting();
+    console.log(oldSettings)
     setGasType(oldSettings.fuelType)
     setFavoriteStations(oldSettings.favoriteStations)
   }, []);
@@ -155,7 +157,6 @@ function LocationFinder({ locations }: Props) {
       )}
       <LocationSearch setUserLocation={setUserLocation} />
 
-      {/*<GasTypeSelector setGasType={setGasType} gasType={gasType} />*/}
       {showMap ? (
         <Map
           zoom={zoom}
@@ -233,7 +234,7 @@ function getLocationsInRadius(center: LatLng, locations: Station[], radius = 6) 
 
 function getInitialUserSetting() {
   try {
-    const oldUserSetting = JSON.parse(localStorage.getItem('userSettings')!);
+    const oldUserSetting = JSON.parse(localStorage.getItem('userSettings') || '{}');
     return oldUserSetting ? oldUserSetting : {};
   } catch (error) {
     console.log(error);
