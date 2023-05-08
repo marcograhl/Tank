@@ -234,7 +234,7 @@ function getLocationsInRadius(center: LatLng, locations: Station[], radius = 6) 
 
 function getInitialUserSetting() {
   try {
-    const oldUserSetting = JSON.parse(localStorage.getItem('userSettings')!);
+    const oldUserSetting = JSON.parse(localStorage.getItem('userSettings') || '{}');
     return oldUserSetting ? oldUserSetting : {};
   } catch (error) {
     console.log(error);
