@@ -5,7 +5,7 @@ import { Selection } from '@/types/tankstellen-types';
 import { Gastype } from '@/types/tankstellen-types';
 
 type Props = {
-  setGasType: Dispatch<SetStateAction<Gastype>>
+  setGasType: Dispatch<SetStateAction<Gastype>> 
   gasType: Gastype
 }
 
@@ -37,7 +37,7 @@ function FuelSelect({ setGasType, gasType }: Props) {
 
     useEffect(() => {
       if (selectedItem !== null) {
-        setGasType(selectedItem.value)
+        setGasType(selectedItem.value as Gastype)
       }
 
     }, [selectedItem])

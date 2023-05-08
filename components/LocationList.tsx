@@ -36,13 +36,13 @@ export default function LocationList({ stations, gasType, setMapCenter, setZoom,
   }
 
   function lockOnStation(lat: number, lng: number, zoom = 15) {
-    setMapCenter({ lat: lat, lng: lng })
+    setMapCenter({ lat, lng })
     setZoom(zoom)
   }
   return (
     <ul className="location-finder__list">
 
-      {stations.length === 0 ? <span>You don't have any Favorties yet</span> : stations.map(({ name, street, postCode, e5, e10, diesel, distance, id, houseNumber, lat, lng }) => (
+      {stations.length === 0 ? <span>You dont have any Favorties yet</span> : stations.map(({ name, street, postCode, e5, e10, diesel, distance, id, houseNumber, lat, lng }) => (
         <li key={id}>
           <dl>
             <div>
@@ -80,9 +80,7 @@ export default function LocationList({ stations, gasType, setMapCenter, setZoom,
               </div>
             )}
           </dl>
-          <button onClick={() => toggleFavorite(id)}>
-            ♥️
-          </button>
+          <button onClick={() => toggleFavorite(id)}>♥️ </button>
           <button onClick={() => lockOnStation(lat, lng)}>Center Position</button>
             <Link href={`https://www.google.com/maps/dir/?api=1&origin=${userLocation?.lat},${userLocation?.lng}&destination=${lat},${lng}`} target="_blank" rel="noreferrer">
               Get Directions

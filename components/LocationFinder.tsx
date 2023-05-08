@@ -59,7 +59,7 @@ function LocationFinder({ locations }: Props) {
     if (typeof window !== "undefined" && window.localStorage) {
       const newSettings = {
         fuelType: gasType,
-        favoriteStations: favoriteStations
+        favoriteStations
       }
       setUserSetting(newSettings)
       localStorage.setItem('userSettings', JSON.stringify(newSettings))

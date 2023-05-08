@@ -6,7 +6,7 @@ export type LatLng = {
 export type Gastype= 'e10' | 'e5' | 'diesel'
 
 export type Selection = {
-  value: string
+  value: string | Gastype
 }
 
 export type UserSettings ={
