@@ -7,8 +7,8 @@ import { LatLng } from "@/types/tankstellen-types";
 import LocationList from "./LocationList";
 import LocationSearch from "./LocationSearch";
 import ListSelect from "./ListSelect";
-// import FuelSelect from "./FuelTypeSelect";
-import GasTypeSelector from "./GasTypeSelect";
+import FuelSelect from "./FuelTypeSelect";
+// import GasTypeSelector from "./GasTypeSelect";
 
 
 const Map = dynamic(() => import('@/components/Map'), {
@@ -51,9 +51,9 @@ function LocationFinder({ locations }: Props) {
   useEffect(() => {
     setNavigatorAvailable(Boolean(window?.navigator?.geolocation));
 
-    const oldSettings = getInitialUserSetting();
-    setGasType(oldSettings.fuelType)
-    setFavoriteStations(oldSettings.favoriteStations)
+    // const oldSettings = getInitialUserSetting();
+    // setGasType(oldSettings.fuelType)
+    // setFavoriteStations(oldSettings.favoriteStations)
   }, []);
 
   useEffect(() => {
@@ -142,7 +142,7 @@ function LocationFinder({ locations }: Props) {
 
   return (
     <div>
-      {/*<FuelSelect gasType={gasType} setGasType={setGasType} />*/}
+      <FuelSelect gasType={gasType} setGasType={setGasType} />
       {navigatorAvailable && (
         <button onClick={showNearLocations}>This is my Location </button>
       )}
@@ -156,7 +156,6 @@ function LocationFinder({ locations }: Props) {
       )}
       <LocationSearch setUserLocation={setUserLocation} />
 
-      {<GasTypeSelector setGasType={setGasType} gasType={gasType} />}
       {showMap ? (
         <Map
           zoom={zoom}
