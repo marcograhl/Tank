@@ -56,17 +56,17 @@ function LocationFinder({ locations }: Props) {
     // setFavoriteStations(oldSettings.favoriteStations)
   }, []);
 
-  // useEffect(() => {
-  //   if (typeof window !== "undefined" && window.localStorage) {
-  //     const newSettings = {
-  //       fuelType: gasType,
-  //       favoriteStations
-  //     }
-  //     setUserSetting(newSettings)
-  //     localStorage.setItem('userSettings', JSON.stringify(newSettings))
-  //   }
-  // }, [gasType,favoriteStations])
-  //
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.localStorage) {
+      const newSettings = {
+        fuelType: gasType,
+        favoriteStations
+      }
+      setUserSetting(newSettings)
+      localStorage.setItem('userSettings', JSON.stringify(newSettings))
+    }
+  }, [gasType,favoriteStations])
+
 
   async function showNearLocations() {
     setGeolocationError('');
