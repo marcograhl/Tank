@@ -7,7 +7,8 @@ import { LatLng } from "@/types/tankstellen-types";
 import LocationList from "./LocationList";
 import LocationSearch from "./LocationSearch";
 import ListSelect from "./ListSelect";
-import FuelSelect from "./FuelTypeSelect";
+// import FuelSelect from "./FuelTypeSelect";
+import GasTypeSelector from "./GasTypeSelect";
 
 
 const Map = dynamic(() => import('@/components/Map'), {
@@ -155,7 +156,7 @@ function LocationFinder({ locations }: Props) {
       )}
       <LocationSearch setUserLocation={setUserLocation} />
 
-      {/*<GasTypeSelector setGasType={setGasType} gasType={gasType} />*/}
+      {<GasTypeSelector setGasType={setGasType} gasType={gasType} />}
       {showMap ? (
         <Map
           zoom={zoom}
