@@ -136,9 +136,9 @@ function LocationFinder({ locations }: Props) {
     : isOpenAndHasPrice.map((location) => {
       location.distance = undefined;
       return location;
-    })
+    }).slice(0, defaultListMaxNumber);
 
-  const priceSortStations: Station[] = visibleLocations.slice(0, defaultListMaxNumber);
+  const priceSortStations: Station[] = visibleLocations
 
   return (
     <div className="flow">
@@ -150,7 +150,7 @@ function LocationFinder({ locations }: Props) {
       )}
       {geolocationError && <strong>{geolocationError}</strong>}
 
-      <button onClick={reset}>Alle Standorte anzeigen</button>
+      <button onClick={reset}>Show Top 10</button>
       {visibleLocations.length === 0 && (
           <strong className="location-finder__error">
           Leider kein Standort in Ihrer Nähe.
@@ -167,7 +167,7 @@ function LocationFinder({ locations }: Props) {
           stations={visibleLocations} />
       ) : (
         <div>
-          <button onClick={() => setShowMap(true)}>Karte anzeigen</button>
+          <button onClick={() => setShowMap(true)}>Show Map</button>
         </div>
       )
       }
@@ -203,9 +203,6 @@ function LocationFinder({ locations }: Props) {
         />
 
       }
-
-
-
 
     </div>
   )

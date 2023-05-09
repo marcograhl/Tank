@@ -93,7 +93,7 @@ export default function LocationSearch({ setUserLocation }: Props) {
           id="downshift-0-label"
           {...getLabelProps()}
         >
-          Ort oder Postleitzahl
+        List Stations Near a Berlin Location via a Zipcode
         </label>
         <div className="input-delete-wrapper cluster">
           <input
