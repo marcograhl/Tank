@@ -20,3 +20,39 @@ Hinweis: @use ersetzt das lange übliche @import, siehe dazu https://sass-lang.c
 @use 'typographie';
 @use 'components';
 @use 'tables';
+
+
+button {
+  background: var(--gray-8);
+  border: 0px;
+  padding: var(--size-2) var(--size-3);
+  color: var(--gray-1);
+  border-radius: var(--radius-round);
+
+}
+
+ul{
+  list-style: none;
+}
+
+a{
+  color: var(--gray-8)
+}
+
+.location-finder {
+  &__error {
+    display: block;
+  }
+  &__show-map,
+  &__show-all {
+    margin-block: 1rem;
+    small {
+      display: block;
+    }
+  }
+}
+
+:is(dt,dd){
+  display: inline-block;
+
+}

@@ -58,14 +58,12 @@ function LocationFinder({ locations }: Props) {
   }, []);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.localStorage) {
       const newSettings = {
         fuelType: gasType,
         favoriteStations
       }
       setUserSetting(newSettings)
       localStorage.setItem('userSettings', JSON.stringify(newSettings))
-    }
   }, [gasType,favoriteStations])
 
 
@@ -234,12 +232,12 @@ function getLocationsInRadius(center: LatLng, locations: Station[], radius = 6) 
 
 function getInitialUserSetting() {
   try {
-    const oldUserSetting = JSON.parse(localStorage.getItem('userSettings') || '{}');
-    return oldUserSetting ? oldUserSetting : {};
+    const oldUserSetting = JSON.parse(localStorage.getItem('userSettings')?? JSON.stringify(defaultSettings));
+    return oldUserSetting ? oldUserSetting : defaultSettings;
   } catch (error) {
     console.log(error);
     localStorage.removeItem('userSettings');
-    return {};
+    return defaultSettings;
   }
 }
 
