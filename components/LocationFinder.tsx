@@ -8,6 +8,7 @@ import LocationList from "./LocationList";
 import LocationSearch from "./LocationSearch";
 import ListSelect from "./ListSelect";
 import FuelSelect from "./FuelTypeSelect";
+import { z } from "zod";
 // import GasTypeSelector from "./GasTypeSelect";
 
 
@@ -25,7 +26,7 @@ type Props = {
 const defaultZoom = 10;
 const defaultCenter = { lat: 52.520008, lng: 13.404954 };
 const defaultGasType = 'e5' as Gastype;
-const defaultListMaxNumber = 15
+const defaultListMaxNumber = 10
 const defaultFavList = [] as Station[];
 const defaultSettings = {
   fuelType: defaultGasType,
@@ -140,8 +141,10 @@ function LocationFinder({ locations }: Props) {
   const priceSortStations: Station[] = visibleLocations.slice(0, defaultListMaxNumber);
 
   return (
-    <div>
+    <div className="flow">
       <FuelSelect gasType={gasType} setGasType={setGasType} />
+
+      <div className="cluster">
       {navigatorAvailable && (
         <button onClick={showNearLocations}>This is my Location </button>
       )}
@@ -149,10 +152,12 @@ function LocationFinder({ locations }: Props) {
 
       <button onClick={reset}>Alle Standorte anzeigen</button>
       {visibleLocations.length === 0 && (
-        <strong className="location-finder__error">
+          <strong className="location-finder__error">
           Leider kein Standort in Ihrer Nähe.
-        </strong>
-      )}
+          </strong>
+          )}
+      </div>
+
       <LocationSearch setUserLocation={setUserLocation} />
 
       {showMap ? (
@@ -166,13 +171,16 @@ function LocationFinder({ locations }: Props) {
         </div>
       )
       }
-      <p>Lowest Price</p>
-      <dl>
-        <div>
-          <dt>{gasType}</dt>
-          <dd>{lowestPrice}</dd>
+
+      <div className="top-price cluster">
+      <span className="top_price__title">Lowest Price</span>
+      <dl className="inline">
+        <div className="inline">
+          <dt>for {gasType}:</dt>
+          <dd>{lowestPrice} Euro</dd>
         </div>
       </dl>
+      </div>
       <ListSelect setShowFavList={setShowFavList} />
       {!showFavList ?
         <LocationList
@@ -231,6 +239,7 @@ function getLocationsInRadius(center: LatLng, locations: Station[], radius = 6) 
 }
 
 function getInitialUserSetting() {
+  // need to test inpute with Zod other site might have same key , or if we add more to localStorage we get a problem
   try {
     const oldUserSetting = JSON.parse(localStorage.getItem('userSettings')?? JSON.stringify(defaultSettings));
     return oldUserSetting ? oldUserSetting : defaultSettings;

@@ -29,7 +29,7 @@
     padding: 0;
 
     &:not(:empty) {
-      border: 1px solid blue;
+      border: 1px solid var(--green-8);
       border-radius: rem(3);
     }
   }
@@ -39,7 +39,7 @@
 
     &--highlighted {
       color: white;
-      background: blue;
+      background: var(--gray-8);
     }
   }
 }
