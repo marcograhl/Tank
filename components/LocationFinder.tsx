@@ -136,9 +136,9 @@ function LocationFinder({ locations }: Props) {
     : isOpenAndHasPrice.map((location) => {
       location.distance = undefined;
       return location;
-    })
+    }).slice(0, defaultListMaxNumber);
 
-  const priceSortStations: Station[] = visibleLocations.slice(0, defaultListMaxNumber);
+  const priceSortStations: Station[] = visibleLocations
 
   return (
     <div className="flow">
@@ -203,9 +203,6 @@ function LocationFinder({ locations }: Props) {
         />
 
       }
-
-
-
 
     </div>
   )
