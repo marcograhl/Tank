@@ -232,12 +232,12 @@ function getLocationsInRadius(center: LatLng, locations: Station[], radius = 6) 
 
 function getInitialUserSetting() {
   try {
-    const oldUserSetting = JSON.parse(localStorage.getItem('userSettings'));
+    const oldUserSetting = JSON.parse(localStorage.getItem('userSettings')?? JSON.stringify(defaultSettings));
     return oldUserSetting ? oldUserSetting : defaultSettings;
   } catch (error) {
     console.log(error);
     localStorage.removeItem('userSettings');
-    return {};
+    return defaultSettings;
   }
 }
 
