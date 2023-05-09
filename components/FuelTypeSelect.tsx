@@ -44,10 +44,10 @@ function FuelSelect({ setGasType, gasType }: Props) {
 
     return (
       <div>
-        <div className="w-72 flex flex-col gap-1">
+        <div className="combobox">
           <label {...getLabelProps()}>Select Fueltype</label>
           <div
-            className="p-2 bg-white flex justify-between cursor-pointer"
+            className="input-delete-wrapper select-box"
             {...getToggleButtonProps()}
           >
             <span>{selectedItem ? selectedItem.value : gasType}</span>
@@ -55,15 +55,17 @@ function FuelSelect({ setGasType, gasType }: Props) {
           </div>
         </div>
         <ul
-          className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 ${!isOpen && 'hidden'
-            }`}
+          className="combobox__list flow select-items"
           {...getMenuProps()}
         >
           {isOpen &&
             FuelTypeSelections.map((item, index) => (
               <li
-                className={`hi`}
-                key={`${item.value}${index}`}
+                    className={`combobox__item ${index === highlightedIndex
+                    ? 'combobox__item--highlighted'
+                    : ''
+                  }`}
+  key={`${item.value}${index}`}
                 {...getItemProps({ item, index })}
               >
                 <span>{item.value}</span>

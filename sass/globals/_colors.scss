@@ -12,12 +12,12 @@
   --black: hsl(0 10% 6%);
 
   // Variablennamen zum Beschreiben der Funktion
-  --background-color: var(--honeydew);
-  --text-color: var(--prussian-blue);
+  --background-color: var(--gray-0);
+  --text-color: var(--gray-10);
   --heading-color: var(--imperial-red);
   --link-color: var(--imperial-red);
-  --active-link-color: var(--celadon-blue);
-  --header-footer-background: var(--powder-blue);
+  --active-link-color: var(--gray-6);
+  --header-footer-background: var(--gray-10);
   --header-color: var(--imperial-red);
   // https://css-tricks.com/a-complete-guide-to-dark-mode-on-the-web
   @media (prefers-color-scheme: dark) {

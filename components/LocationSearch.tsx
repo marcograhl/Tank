@@ -95,7 +95,7 @@ export default function LocationSearch({ setUserLocation }: Props) {
         >
           Ort oder Postleitzahl
         </label>
-        <div className="input-delete-wrapper">
+        <div className="input-delete-wrapper cluster">
           <input
             className="combobox__input"
             id="location-search"
@@ -103,7 +103,7 @@ export default function LocationSearch({ setUserLocation }: Props) {
           />
           <button onClick={clearSearch}>↩️</button>
         </div>
-        <ul className="combobox__list" {...getMenuProps()}>
+        <ul className="combobox__list flow" {...getMenuProps()}>
           {isOpen &&
             suggestions.map((suggestion, index) => (
               <li
